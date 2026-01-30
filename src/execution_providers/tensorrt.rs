@@ -5,8 +5,9 @@ use crate::{
 	session::builder::SessionBuilder
 };
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, serde::Deserialize)]
 pub struct TensorRTExecutionProvider {
+	#[serde(flatten)]
 	options: ExecutionProviderOptions
 }
 

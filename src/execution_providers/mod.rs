@@ -14,7 +14,7 @@
 //! }
 //! ```
 
-use std::{collections::HashMap, ffi::CString, fmt::Debug, os::raw::c_char, sync::Arc};
+use std::{collections::BTreeMap, ffi::CString, fmt::Debug, os::raw::c_char, sync::Arc};
 
 use crate::{char_p_to_string, error::Result, ortsys, session::builder::SessionBuilder};
 
@@ -187,8 +187,8 @@ impl Debug for ExecutionProviderDispatch {
 	}
 }
 
-#[derive(Default, Debug, Clone)]
-pub(crate) struct ExecutionProviderOptions(HashMap<CString, CString>);
+#[derive(Default, Debug, Clone, serde::Deserialize)]
+pub(crate) struct ExecutionProviderOptions(BTreeMap<CString, CString>);
 
 impl ExecutionProviderOptions {
 	pub fn set(&mut self, key: impl Into<Vec<u8>>, value: impl Into<Vec<u8>>) {
