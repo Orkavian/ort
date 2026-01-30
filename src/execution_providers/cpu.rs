@@ -6,7 +6,7 @@ use crate::{
 	session::builder::SessionBuilder
 };
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, serde::Deserialize)]
 pub struct CPUExecutionProvider {
 	use_arena: bool
 }
