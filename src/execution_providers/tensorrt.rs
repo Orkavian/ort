@@ -254,6 +254,29 @@ impl TensorRTExecutionProvider {
 		self
 	}
 
+	#[cfg(feature = "sha2")]
+	#[must_use]
+	pub fn unique_config_id(&self) -> String {
+		use std::fmt::Write;
+		use sha2::Digest;
+
+		let mut hasher = sha2::Sha256::new();
+		for (key, value) in self.options.0.iter() {
+			hasher.update(key.as_bytes());
+			hasher.update([0]);
+			hasher.update(value.as_bytes());
+			hasher.update([0]);
+		}
+
+		let mut hex = String::with_capacity(64);
+		for byte in hasher.finalize() {
+			let _ = write!(&mut hex, "{:02x}", byte);
+		}
+
+		hex.truncate(24);
+		hex
+	}
+
 	#[must_use]
 	pub fn build(self) -> ExecutionProviderDispatch {
 		self.into()
